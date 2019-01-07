@@ -9,10 +9,14 @@ def reply_msg(msg):
     global msgReply
     if msg['Type'] != "Text" :
         if not msg['FromUserName'] == myUserName:
+            msg['Text']("tmp/"+msg['FileName'])
             itchat.send_msg(u'%s 发来: \n%s' %(msg['User']['NickName'],msg['FileName']), toUserName=userName)
             if msg['Type'] == "Picture":
-                msg['Text']("tmp/"+msg['FileName'])
                 itchat.send_image("tmp/"+msg['FileName'], toUserName=userName)
+            elif msg['Type'] == "Video":
+                itchat.send_video("tmp/"+msg['FileName'], toUserName=userName)
+            else:
+                itchat.send_file("tmp/"+msg['FileName'], toUserName=userName)
         return
     if 'start' in msg['Text'] and msg['FromUserName']==userName:
         msgReply=True
